@@ -1,0 +1,29 @@
+<?php
+
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::prefix('admin')->group(function () {
+    Route::get('/import', [AdminController::class, 'importForm'])->name('admin.import');
+    Route::post('/import', [AdminController::class, 'import']);
+    Route::get('/export', [AdminController::class, 'exportForm'])->name('admin.export');
+    Route::get('/export-excel', [AdminController::class, 'export'])->name("admin.export-excel");
+});
