@@ -177,6 +177,7 @@ return [
         App\Providers\UserServiceProvider::class,
         App\Providers\UserRepositoryProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        App\Providers\DTOServiceProvider::class,
 
 
     ],
@@ -234,6 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        
 
     ],
 

@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\DTO\CreateUserRequestDTO;
 use App\Contracts\Services\UserServiceInterface;
+
 
 class UserController extends Controller
 {
     protected $userService;
-
-    public function __construct(UserServiceInterface $userService)
-    {
+    protected $createUserRequestDTO;
+    public function __construct(
+        UserServiceInterface $userService,
+        CreateUserRequestDTO $createUserRequestDTO
+    ) {
         $this->userService = $userService;
+        $this->createUserRequestDTO = $createUserRequestDTO;
     }
 
     public function index()
@@ -27,13 +32,11 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $userData = [
-            'full_name' => $request->input('full_name'),
-            'phone_number' => $request->input('phone_number'),
-            'email' => $request->input('email'),
-        ];
-      
-        $this->userService->createUser($userData);
+        $validatedData = $this->createUserRequestDTO
+            ->setData($request->all())
+            ->validateRequestData();
+
+        $this->userService->createUser($validatedData);
 
         return redirect()
             ->route('users.index')
